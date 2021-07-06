@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import time
 import random
 import re
 import xlrd
@@ -11,7 +10,7 @@ options = Options()
 # options.add_argument('--disable-gpu')
 # options.add_argument('--remote-debugging-port=9222')
 driver = webdriver.Chrome(executable_path = r'C:\Program Files\Google\Chrome\Application\chromedriver.exe',chrome_options=options)
-startUrl = 'https://qc.qichenglantai.com'
+startUrl = 'https://qc.qichenglantai.com/project/company/id/3.html'
 # url = 'https://qc.qichenglantai.com/create_table/add.html?id=2206&type=4&template_id=625&s_id=2701&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/41/type/1.html?138-1991-2206'
 # url = 'https://qc.qichenglantai.com/create_table/edit.html?uniqid=604972b70005c&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/41/type/1.html?138-1990-2207'
 # url = 'https://qc.qichenglantai.com/create_table/edit.html?uniqid=604c8bb03abeb&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/41/type/1.html?138-1993-2428'
@@ -53,10 +52,16 @@ startUrl = 'https://qc.qichenglantai.com'
 # url ='https://qc.qichenglantai.com/create_table/edit.html?uniqid=605aede183d3f&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/33/type/1.html?114-1046-2926'
 # url = 'https://qc.qichenglantai.com/create_table/edit.html?uniqid=60d5f720b6f0f&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/24/type/1.html?90-3469-15824'
 # url ='https://qc.qichenglantai.com/create_table/add.html?id=13585&type=4&template_id=624&s_id=2725&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/24/type/1.html?90-3472-13585'
-url = 'https://qc.qichenglantai.com/create_table/add.html?id=13585&type=4&template_id=628&s_id=2726&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/24/type/1.html?90-3472-13585'
+# url = 'https://qc.qichenglantai.com/create_table/add.html?id=13585&type=4&template_id=628&s_id=2726&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/24/type/1.html?90-3472-13585'
+# url = 'https://qc.qichenglantai.com/create_table/add.html?id=13585&type=4&template_id=628&s_id=2726&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/24/type/1.html?90-3472-13585'
+url = 'https://qc.qichenglantai.com/create_table/edit.html?uniqid=60e3b0e7c4ca8&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/31/type/1.html?178-2131-17407'
+
+
 #下载网页内容
 driver.maximize_window()
 # driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+
+# 只能计算规定值和影响偏差都存在得情况，且影响偏差只能有一个数
 def findImg(ele):
     # sleep(2)
     text_img_divs = ele.find_elements_by_class_name('text-img')
@@ -70,15 +75,14 @@ def findImg(ele):
         i = i + 1
         # print(arr[0])
         j = 10
-      elif (span.text == '') and (j > 0) :
+        # span.click()
+      elif (span.text == '') and (j>0):
         j = j - 1
-        
-        arr3 = arr[3][1:].split(",")
-        # print('1111111', int(re.findall(r"\d+\.?\d*",'-10')[0]))
-        # re.findall(r"\d+\.?\d*",arr3[1])
-        num = random.randint(int(re.findall(r"\d+\.?\d*",arr3[1])[0]),int(arr3[0])) if len(arr3) >1 else arr3[0]
+        # 取影响偏差得值
+        num = re.findall(r"\d+\.?\d*",arr[3])[0]
         # print(num)
         span.click()
+        # span.send_keys(i)
         span.send_keys(random.randint(int(arr[2])-int(num),int(arr[2])+int(num)))
 
 def readExcel(path):
@@ -321,26 +325,46 @@ def pageDriver(url):
     print(startUrl)
     # try:/
     driver.get(startUrl)
-    driver.add_cookie({'name' : 'PHPSESSID', 'value' : 'e2pi5j3hkq9ra0do9itmgdr9mg'})
+    driver.add_cookie({'name' : 'PHPSESSID', 'value' : '6qjs147hnimiqioucl53pfsdmk'})
     
     # driver.add_argument('--headless')
     driver.refresh() # 刷新方法 refresh
     driver.get(url)
 
     # # driver.add_cookie({'name':'dv6lc67iicq47tih23prmn0147'})
+
+    # 钢筋安装检验报告
+    setgangjin(driver)
+    # 混凝土拌和运输施工记录表
+    # setfindHunningtu(driver)
+    # 混凝土浇筑施工记录表
+    # setfind_jiaozhu(ImgDiv)
+
+def setgangjin(driver):
+    # gImg = driver.find_elements_by_id('imgDiv')
+    # ImgDiv = gImg
+    # for item in ImgDiv :
+    #   findImg(item)
+    gImg2 = driver.find_elements_by_id('imgDiv2')
+    ImgDiv2 = gImg2
+    for item in ImgDiv2 :
+      findImg(item)
+    gImg3 = driver.find_elements_by_id('imgDiv3')
+    ImgDiv3 = gImg3
+    for item in ImgDiv3 :
+      findImg(item)
+def setfindHunningtu(driver):
     gImg = driver.find_elements_by_id('imgDiv')
     ImgDiv = gImg
-    # print(ImgDiv)
-    # print(gImg[1:-1])
     for item in ImgDiv :
       print(item)
-      # 钢筋安装检验报告
-      # findImg(item)
-      # 混凝土拌和运输施工记录表
-      # findHunningtu(item)
-      # 混凝土浇筑施工记录表
-      find_jiaozhu(item)
-    # element = driver.find_element_by_id('imgDiv3')
+      findHunningtu(item)
+def setfind_jiaozhu(driver):
+    gImg = driver.find_elements_by_id('imgDiv')
+    ImgDiv = gImg
+    for item in ImgDiv :
+      print(item)
+      findHunningtu(item)
 
 
     #   span.click()
