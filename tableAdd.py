@@ -54,8 +54,8 @@ startUrl = 'https://qc.qichenglantai.com/project/company/id/3.html'
 # url ='https://qc.qichenglantai.com/create_table/add.html?id=13585&type=4&template_id=624&s_id=2725&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/24/type/1.html?90-3472-13585'
 # url = 'https://qc.qichenglantai.com/create_table/add.html?id=13585&type=4&template_id=628&s_id=2726&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/24/type/1.html?90-3472-13585'
 # url = 'https://qc.qichenglantai.com/create_table/add.html?id=13585&type=4&template_id=628&s_id=2726&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/24/type/1.html?90-3472-13585'
-url = 'https://qc.qichenglantai.com/create_table/edit.html?uniqid=60e3b0e7c4ca8&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/31/type/1.html?178-2131-17407'
-
+# url = 'https://qc.qichenglantai.com/create_table/edit.html?uniqid=60e3b0e7c4ca8&data-url=https://qc.qichenglantai.com/engineering/indexlist/id/31/type/1.html?178-2131-17407'
+url = 'https://qc.qichenglantai.com/approval/detail/id/2545416.html'
 
 #下载网页内容
 driver.maximize_window()
